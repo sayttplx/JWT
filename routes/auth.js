@@ -14,19 +14,19 @@ router.post("/login", async (req, res) => {
 
     try {
         // Check if this user exists
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
         // If user does not exists send back an error
-        if(!user) {
-            return res.status(400).json({error: 'Invalid Credentials'});
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid Credentials' });
         }
 
         // Check if password matches with bcrypt(compare)
         const isMatch = await bcrypt.compare(password, user.password);
 
         // If password is falsy
-        if(!isMatch) {
-            return res.status(400).json({error: 'Invalid Credentials'});
+        if (!isMatch) {
+            return res.status(400).json({ error: 'Invalid Credentials' });
         }
 
         // User authenticated
@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: 'Server Error'});
+        res.status(500).json({ error: 'Server Error' });
     }
 
 });
@@ -63,7 +63,8 @@ router.post("/register", async (req, res) => {
         }
 
         // bcrypt salts the password
-        const hashedPsw = await bcrypt.hash(password, 12);
+        const hashedPsw = await bcrypt.hash(password, 16);
+
 
         // Create a user
         user = new User({
